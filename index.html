@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Pairer - Find Perfect Font Combinations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        h1 {
+            margin-bottom: 0;
+        }
+
+        main {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .font-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .font-section {
+            width: 48%;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .preview {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            min-height: 200px;
+            margin-top: 1rem;
+        }
+
+        #headingPreview {
+            margin-top: 0;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #exportCode {
+            margin-top: 1rem;
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Font Pairer</h1>
+        <p>Find the perfect font combinations for your projects</p>
+    </header>
+
+    <main>
+        <div class="font-container">
+            <div class="font-section">
+                <h2>Heading Font</h2>
+                <select id="headingFont"></select>
+                <input type="range" id="headingSize" min="16" max="72" value="36">
+                <div class="preview">
+                    <h2 id="headingPreview">The quick brown fox jumps over the lazy dog</h2>
+                </div>
+            </div>
+            <div class="font-section">
+                <h2>Body Font</h2>
+                <select id="bodyFont"></select>
+                <input type="range" id="bodySize" min="12" max="24" value="16">
+                <div class="preview">
+                    <p id="bodyPreview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </div>
+        <button id="randomize">Randomize Fonts</button>
+        <button id="export">Export CSS</button>
+        <textarea id="exportCode" readonly></textarea>
+    </main>
+
+    <script>
+        const fonts = [
+            'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Trebuchet MS',
+            'Times New Roman', 'Georgia', 'Palatino', 'Garamond', 'Bookman',
+            'Comic Sans MS', 'Courier New', 'Arial Black', 'Impact'
+        ];
+
+        const headingFontSelect = document.getElementById('headingFont');
+        const bodyFontSelect = document.getElementById('bodyFont');
+        const headingPreview = document.getElementById('headingPreview');
+        const bodyPreview = document.getElementById('bodyPreview');
+        const headingSizeInput = document.getElementById('headingSize');
+        const bodySizeInput = document.getElementById('bodySize');
+        const randomizeButton = document.getElementById('randomize');
+        const exportButton = document.getElementById('export');
+        const exportCode = document.getElementById('exportCode');
+
+        fonts.forEach(font => {
+            headingFontSelect.innerHTML += `<option value="${font}">${font}</option>`;
+            bodyFontSelect.innerHTML += `<option value="${font}">${font}</option>`;
+        });
+
+        function updateFonts() {
+            headingPreview.style.fontFamily = headingFontSelect.value;
+            bodyPreview.style.fontFamily = bodyFontSelect.value;
+            headingPreview.style.fontSize = `${headingSizeInput.value}px`;
+            bodyPreview.style.fontSize = `${bodySizeInput.value}px`;
+        }
+
+        headingFontSelect.addEventListener('change', updateFonts);
+        bodyFontSelect.addEventListener('change', updateFonts);
+        headingSizeInput.addEventListener('input', updateFonts);
+        bodySizeInput.addEventListener('input', updateFonts);
+
+        randomizeButton.addEventListener('click', () => {
+            headingFontSelect.selectedIndex = Math.floor(Math.random() * fonts.length);
+            bodyFontSelect.selectedIndex = Math.floor(Math.random() * fonts.length);
+            headingSizeInput.value = Math.floor(Math.random() * (72 - 16 + 1)) + 16;
+            bodySizeInput.value = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
+            updateFonts();
+        });
+
+        exportButton.addEventListener('click', () => {
+            const css = `
+                h1, h2, h3, h4, h5, h6 {
+                    font-family: ${headingFontSelect.value}, sans-serif;
+                    font-size: ${headingSizeInput.value}px;
+                }
+
+                body {
+                    font-family: ${bodyFontSelect.value}, sans-serif;
+                    font-size: ${bodySizeInput.value}px;
+                }`;
+            exportCode.value = css.trim();
+        });
+
+        updateFonts();
+    </script>
+</body>
+</html>
