@@ -3,36 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Font Pairer - Find Perfect Font Combinations</title>
+    <title>Font Pairer Pro - Find Perfect Font Combinations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-color);
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: var(--background-color);
         }
 
         header {
-            background-color: #2c3e50;
+            background-color: var(--secondary-color);
             color: #ecf0f1;
             text-align: center;
-            padding: 1rem;
-            border-radius: 5px;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
 
         h1 {
-            margin-bottom: 0;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
         }
 
         main {
             background-color: #fff;
             padding: 2rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .font-container {
@@ -48,6 +57,9 @@
         select, input[type="range"] {
             width: 100%;
             margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
         .preview {
@@ -55,6 +67,8 @@
             padding: 1rem;
             min-height: 200px;
             margin-top: 1rem;
+            border-radius: 5px;
+            background-color: #fafafa;
         }
 
         #headingPreview {
@@ -62,31 +76,73 @@
         }
 
         button {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: #fff;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-right: 10px;
         }
 
         button:hover {
             background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         #exportCode {
             margin-top: 1rem;
             width: 100%;
-            height: 100px;
+            height: 150px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        .color-picker {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .color-picker input[type="color"] {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .font-weight-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .font-weight-control label {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Font Pairer</h1>
-        <p>Find the perfect font combinations for your projects</p>
+        <h1>Font Pairer Pro</h1>
+        <p>Discover and customize perfect font combinations for your projects</p>
     </header>
 
     <main>
@@ -94,7 +150,21 @@
             <div class="font-section">
                 <h2>Heading Font</h2>
                 <select id="headingFont"></select>
-                <input type="range" id="headingSize" min="16" max="72" value="36">
+                <div class="controls">
+                    <input type="range" id="headingSize" min="16" max="72" value="36">
+                    <span id="headingSizeValue">36px</span>
+                </div>
+                <div class="font-weight-control">
+                    <label for="headingWeight">Weight:</label>
+                    <select id="headingWeight">
+                        <option value="normal">Normal</option>
+                        <option value="bold">Bold</option>
+                    </select>
+                </div>
+                <div class="color-picker">
+                    <label for="headingColor">Color:</label>
+                    <input type="color" id="headingColor" value="#333333">
+                </div>
                 <div class="preview">
                     <h2 id="headingPreview">The quick brown fox jumps over the lazy dog</h2>
                 </div>
@@ -102,7 +172,21 @@
             <div class="font-section">
                 <h2>Body Font</h2>
                 <select id="bodyFont"></select>
-                <input type="range" id="bodySize" min="12" max="24" value="16">
+                <div class="controls">
+                    <input type="range" id="bodySize" min="12" max="24" value="16">
+                    <span id="bodySizeValue">16px</span>
+                </div>
+                <div class="font-weight-control">
+                    <label for="bodyWeight">Weight:</label>
+                    <select id="bodyWeight">
+                        <option value="normal">Normal</option>
+                        <option value="bold">Bold</option>
+                    </select>
+                </div>
+                <div class="color-picker">
+                    <label for="bodyColor">Color:</label>
+                    <input type="color" id="bodyColor" value="#333333">
+                </div>
                 <div class="preview">
                     <p id="bodyPreview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 </div>
@@ -117,7 +201,9 @@
         const fonts = [
             'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Trebuchet MS',
             'Times New Roman', 'Georgia', 'Palatino', 'Garamond', 'Bookman',
-            'Comic Sans MS', 'Courier New', 'Arial Black', 'Impact'
+            'Comic Sans MS', 'Courier New', 'Arial Black', 'Impact',
+            'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Oswald', 'Raleway',
+            'Merriweather', 'Playfair Display', 'Poppins', 'Nunito'
         ];
 
         const headingFontSelect = document.getElementById('headingFont');
@@ -126,6 +212,12 @@
         const bodyPreview = document.getElementById('bodyPreview');
         const headingSizeInput = document.getElementById('headingSize');
         const bodySizeInput = document.getElementById('bodySize');
+        const headingSizeValue = document.getElementById('headingSizeValue');
+        const bodySizeValue = document.getElementById('bodySizeValue');
+        const headingWeightSelect = document.getElementById('headingWeight');
+        const bodyWeightSelect = document.getElementById('bodyWeight');
+        const headingColorInput = document.getElementById('headingColor');
+        const bodyColorInput = document.getElementById('bodyColor');
         const randomizeButton = document.getElementById('randomize');
         const exportButton = document.getElementById('export');
         const exportCode = document.getElementById('exportCode');
@@ -140,18 +232,29 @@
             bodyPreview.style.fontFamily = bodyFontSelect.value;
             headingPreview.style.fontSize = `${headingSizeInput.value}px`;
             bodyPreview.style.fontSize = `${bodySizeInput.value}px`;
+            headingSizeValue.textContent = `${headingSizeInput.value}px`;
+            bodySizeValue.textContent = `${bodySizeInput.value}px`;
+            headingPreview.style.fontWeight = headingWeightSelect.value;
+            bodyPreview.style.fontWeight = bodyWeightSelect.value;
+            headingPreview.style.color = headingColorInput.value;
+            bodyPreview.style.color = bodyColorInput.value;
         }
 
-        headingFontSelect.addEventListener('change', updateFonts);
-        bodyFontSelect.addEventListener('change', updateFonts);
-        headingSizeInput.addEventListener('input', updateFonts);
-        bodySizeInput.addEventListener('input', updateFonts);
+        [headingFontSelect, bodyFontSelect, headingSizeInput, bodySizeInput, 
+         headingWeightSelect, bodyWeightSelect, headingColorInput, bodyColorInput].forEach(el => {
+            el.addEventListener('change', updateFonts);
+            el.addEventListener('input', updateFonts);
+        });
 
         randomizeButton.addEventListener('click', () => {
             headingFontSelect.selectedIndex = Math.floor(Math.random() * fonts.length);
             bodyFontSelect.selectedIndex = Math.floor(Math.random() * fonts.length);
             headingSizeInput.value = Math.floor(Math.random() * (72 - 16 + 1)) + 16;
             bodySizeInput.value = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
+            headingWeightSelect.selectedIndex = Math.floor(Math.random() * 2);
+            bodyWeightSelect.selectedIndex = Math.floor(Math.random() * 2);
+            headingColorInput.value = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            bodyColorInput.value = `#${Math.floor(Math.random()*16777215).toString(16)}`;
             updateFonts();
         });
 
@@ -160,11 +263,15 @@
                 h1, h2, h3, h4, h5, h6 {
                     font-family: ${headingFontSelect.value}, sans-serif;
                     font-size: ${headingSizeInput.value}px;
+                    font-weight: ${headingWeightSelect.value};
+                    color: ${headingColorInput.value};
                 }
 
                 body {
                     font-family: ${bodyFontSelect.value}, sans-serif;
                     font-size: ${bodySizeInput.value}px;
+                    font-weight: ${bodyWeightSelect.value};
+                    color: ${bodyColorInput.value};
                 }`;
             exportCode.value = css.trim();
         });
